@@ -12,7 +12,7 @@ FastAPI's Depends(get_db) automatically:
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 import models
@@ -49,6 +49,24 @@ def create_todo(todo_in: schemas.TodoCreate, db: DbDep) -> models.Todo:
     """
     todo = models.Todo(text=todo_in.text)
     db.add(todo)
+    db.commit()
+    db.refresh(todo)
+    return todo
+
+
+@router.patch("/todos/{todo_id}", response_model=schemas.TodoResponse)
+def toggle_todo(todo_id: int, todo_in: schemas.TodoUpdate, db: DbDep) -> models.Todo:
+    """
+    Toggle a todo's is_complete status.
+
+    Returns 404 if todo_id does not exist.
+    db.refresh(todo) re-reads the row after commit so the response
+    reflects exactly what was persisted.
+    """
+    todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    todo.is_complete = todo_in.is_complete
     db.commit()
     db.refresh(todo)
     return todo

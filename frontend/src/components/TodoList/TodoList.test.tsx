@@ -1,6 +1,14 @@
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { TodoList } from './TodoList'
+import * as useTodosModule from '../../hooks/useTodos'
+
+beforeEach(() => {
+  vi.spyOn(useTodosModule, 'useToggleTodo').mockReturnValue({
+    mutate: vi.fn(),
+    isPending: false,
+  } as any)
+})
 
 const mockTodos = [
   { id: 1, text: 'Buy milk', is_complete: false, created_at: '2026-03-23T10:00:00Z' },

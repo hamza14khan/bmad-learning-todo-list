@@ -1,4 +1,5 @@
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
+import { TodoItem } from '../TodoItem/TodoItem'
 import type { Todo } from '../../types/todo'
 import styles from './TodoList.module.css'
 
@@ -17,9 +18,7 @@ export function TodoList({ todos, isLoading }: Props) {
   return (
     <ul className={styles.list}>
       {todos.map(todo => (
-        <li key={todo.id} className={styles.item}>
-          {todo.text}
-        </li>
+        <TodoItem key={todo.id} todo={todo} />
       ))}
     </ul>
   )

@@ -148,3 +148,48 @@ class TestCreateTodo:
         """Text exceeding 200 characters is rejected."""
         response = client.post("/api/v1/todos", json={"text": "x" * 201})
         assert response.status_code == 422
+
+
+class TestToggleTodo:
+    """Tests for PATCH /api/v1/todos/{id}"""
+
+    def test_toggle_todo_returns_200(self, client, db):
+        """Successful toggle returns 200."""
+        todo = Todo(text="Buy milk", is_complete=False, created_at=datetime.now(timezone.utc))
+        db.add(todo)
+        db.commit()
+        response = client.patch(f"/api/v1/todos/{todo.id}", json={"is_complete": True})
+        assert response.status_code == 200
+
+    def test_toggle_todo_marks_complete(self, client, db):
+        """Toggle sets is_complete to true."""
+        todo = Todo(text="Buy milk", is_complete=False, created_at=datetime.now(timezone.utc))
+        db.add(todo)
+        db.commit()
+        response = client.patch(f"/api/v1/todos/{todo.id}", json={"is_complete": True})
+        assert response.json()["is_complete"] is True
+
+    def test_toggle_todo_marks_active(self, client, db):
+        """Toggle sets is_complete back to false."""
+        todo = Todo(text="Buy milk", is_complete=True, created_at=datetime.now(timezone.utc))
+        db.add(todo)
+        db.commit()
+        response = client.patch(f"/api/v1/todos/{todo.id}", json={"is_complete": False})
+        assert response.json()["is_complete"] is False
+
+    def test_toggle_todo_response_contains_all_fields(self, client, db):
+        """Response includes all TodoResponse fields."""
+        todo = Todo(text="Buy milk", is_complete=False, created_at=datetime.now(timezone.utc))
+        db.add(todo)
+        db.commit()
+        response = client.patch(f"/api/v1/todos/{todo.id}", json={"is_complete": True})
+        data = response.json()
+        assert "id" in data
+        assert "text" in data
+        assert "is_complete" in data
+        assert "created_at" in data
+
+    def test_toggle_todo_not_found_returns_404(self, client):
+        """Non-existent todo id returns 404."""
+        response = client.patch("/api/v1/todos/999", json={"is_complete": True})
+        assert response.status_code == 404
