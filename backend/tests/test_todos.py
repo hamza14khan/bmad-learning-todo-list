@@ -193,3 +193,51 @@ class TestToggleTodo:
         """Non-existent todo id returns 404."""
         response = client.patch("/api/v1/todos/999", json={"is_complete": True})
         assert response.status_code == 404
+
+
+class TestDeleteTodo:
+    """Tests for DELETE /api/v1/todos/{id}"""
+
+    def test_delete_todo_returns_204(self, client, db):
+        """Successful delete returns 204 No Content."""
+        todo = Todo(text="Buy milk", is_complete=False, created_at=datetime.now(timezone.utc))
+        db.add(todo)
+        db.commit()
+        response = client.delete(f"/api/v1/todos/{todo.id}")
+        assert response.status_code == 204
+
+    def test_delete_todo_removes_from_db(self, client, db):
+        """Deleted todo no longer appears in GET /todos."""
+        todo = Todo(text="Buy milk", is_complete=False, created_at=datetime.now(timezone.utc))
+        db.add(todo)
+        db.commit()
+        client.delete(f"/api/v1/todos/{todo.id}")
+        response = client.get("/api/v1/todos")
+        assert response.json() == []
+
+    def test_delete_todo_not_found_returns_404(self, client):
+        """Non-existent todo id returns 404."""
+        response = client.delete("/api/v1/todos/999")
+        assert response.status_code == 404
+
+    def test_delete_todo_response_has_no_body(self, client, db):
+        """204 response has an empty body."""
+        todo = Todo(text="Buy milk", is_complete=False, created_at=datetime.now(timezone.utc))
+        db.add(todo)
+        db.commit()
+        response = client.delete(f"/api/v1/todos/{todo.id}")
+        assert response.content == b""
+
+    def test_delete_todo_does_not_affect_other_todos(self, client, db):
+        """Deleting one todo leaves others intact."""
+        now = datetime.now(timezone.utc)
+        todo1 = Todo(text="Keep this", is_complete=False, created_at=now)
+        todo2 = Todo(text="Delete this", is_complete=False, created_at=now + timedelta(seconds=1))
+        db.add(todo1)
+        db.add(todo2)
+        db.commit()
+        client.delete(f"/api/v1/todos/{todo2.id}")
+        response = client.get("/api/v1/todos")
+        data = response.json()
+        assert len(data) == 1
+        assert data[0]["text"] == "Keep this"

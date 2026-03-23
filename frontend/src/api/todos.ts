@@ -34,3 +34,12 @@ export async function toggleTodo(id: number, is_complete: boolean): Promise<Todo
   }
   return response.json()
 }
+
+export async function deleteTodo(id: number): Promise<void> {
+  const response = await fetch(`${API_URL}/api/v1/todos/${id}`, {
+    method: 'DELETE',
+  })
+  if (!response.ok) {
+    throw new Error(`Failed to delete todo: ${response.status}`)
+  }
+}

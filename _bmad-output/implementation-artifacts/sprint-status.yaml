@@ -51,7 +51,7 @@ development_status:
   epic-2: in-progress
   2-1-create-a-todo: review
   2-2-complete-and-uncomplete-a-todo: review
-  2-3-delete-a-todo: backlog
+  2-3-delete-a-todo: review
   epic-2-retrospective: optional
 
   epic-3: backlog

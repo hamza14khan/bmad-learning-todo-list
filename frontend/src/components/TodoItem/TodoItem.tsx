@@ -1,4 +1,4 @@
-import { useToggleTodo } from '../../hooks/useTodos'
+import { useToggleTodo, useDeleteTodo } from '../../hooks/useTodos'
 import type { Todo } from '../../types/todo'
 import styles from './TodoItem.module.css'
 
@@ -8,6 +8,7 @@ interface Props {
 
 export function TodoItem({ todo }: Props) {
   const { mutate: toggleTodo } = useToggleTodo()
+  const { mutate: deleteTodo } = useDeleteTodo()
 
   return (
     <li className={styles.item}>
@@ -21,6 +22,13 @@ export function TodoItem({ todo }: Props) {
       <span className={`${styles.text} ${todo.is_complete ? styles.completed : ''}`}>
         {todo.text}
       </span>
+      <button
+        className={styles.delete}
+        onClick={() => deleteTodo(todo.id)}
+        aria-label="Delete todo"
+      >
+        ✕
+      </button>
     </li>
   )
 }

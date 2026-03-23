@@ -8,6 +8,10 @@ beforeEach(() => {
     mutate: vi.fn(),
     isPending: false,
   } as any)
+  vi.spyOn(useTodosModule, 'useDeleteTodo').mockReturnValue({
+    mutate: vi.fn(),
+    isPending: false,
+  } as any)
 })
 
 const mockTodos = [

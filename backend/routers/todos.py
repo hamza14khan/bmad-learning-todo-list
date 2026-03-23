@@ -12,7 +12,7 @@ FastAPI's Depends(get_db) automatically:
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 import models
@@ -70,3 +70,18 @@ def toggle_todo(todo_id: int, todo_in: schemas.TodoUpdate, db: DbDep) -> models.
     db.commit()
     db.refresh(todo)
     return todo
+
+
+@router.delete("/todos/{todo_id}", status_code=204)
+def delete_todo(todo_id: int, db: DbDep) -> None:
+    """
+    Permanently delete a todo.
+
+    Returns 204 No Content on success — no response body.
+    Returns 404 if todo_id does not exist.
+    """
+    todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    db.delete(todo)
+    db.commit()

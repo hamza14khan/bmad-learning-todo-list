@@ -5,11 +5,17 @@ import { TodoItem } from './TodoItem'
 import * as useTodosModule from '../../hooks/useTodos'
 
 const mockToggle = vi.fn()
+const mockDelete = vi.fn()
 
 beforeEach(() => {
   mockToggle.mockReset()
+  mockDelete.mockReset()
   vi.spyOn(useTodosModule, 'useToggleTodo').mockReturnValue({
     mutate: mockToggle,
+    isPending: false,
+  } as any)
+  vi.spyOn(useTodosModule, 'useDeleteTodo').mockReturnValue({
+    mutate: mockDelete,
     isPending: false,
   } as any)
 })
@@ -25,13 +31,13 @@ describe('TodoItem', () => {
 
   it('clicking toggle on active todo calls mutate with is_complete: true', async () => {
     render(<TodoItem todo={activeTodo} />)
-    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('button', { name: /mark as complete/i }))
     expect(mockToggle).toHaveBeenCalledWith({ id: 1, is_complete: true })
   })
 
   it('clicking toggle on completed todo calls mutate with is_complete: false', async () => {
     render(<TodoItem todo={completedTodo} />)
-    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('button', { name: /mark as active/i }))
     expect(mockToggle).toHaveBeenCalledWith({ id: 2, is_complete: false })
   })
 
@@ -45,5 +51,16 @@ describe('TodoItem', () => {
     render(<TodoItem todo={activeTodo} />)
     const textSpan = screen.getByText('Buy milk')
     expect(textSpan.className).not.toMatch(/completed/)
+  })
+
+  it('renders a delete button', () => {
+    render(<TodoItem todo={activeTodo} />)
+    expect(screen.getByRole('button', { name: /delete todo/i })).toBeInTheDocument()
+  })
+
+  it('clicking delete calls mutate with the todo id', async () => {
+    render(<TodoItem todo={activeTodo} />)
+    await userEvent.click(screen.getByRole('button', { name: /delete todo/i }))
+    expect(mockDelete).toHaveBeenCalledWith(1)
   })
 })

@@ -40,3 +40,17 @@
   text-decoration: line-through;
   color: #aaa;
 }
+
+.delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ccc;
+  font-size: 1rem;
+  padding: 0 0.25rem;
+  transition: color 0.2s;
+}
+
+.delete:hover {
+  color: #e74c3c;
+}
