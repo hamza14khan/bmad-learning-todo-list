@@ -12,3 +12,10 @@
 .item:last-child {
   border-bottom: none;
 }
+
+.empty {
+  color: #888;
+  text-align: center;
+  padding: 2rem 1rem;
+  margin: 0;
+}

@@ -408,6 +408,13 @@ Load config from `{project-root}/_bmad/bmm/config.yaml` and resolve:
     <action if="regression failures exist">HALT - Fix regression issues before completing</action>
     <action if="File List is incomplete">HALT - Update File List with all changed files</action>
     <action if="definition-of-done validation fails">HALT - Address DoD failures before completing</action>
+
+    <!-- Git commit reminder -->
+    <output>💾 **Reminder:** Story {{story_key}} is complete. Would you like to commit these changes to git?
+      Suggested message: "story {{story_key}}: {{story_title_short}}"
+      Files to stage are listed in the story's File List section.
+    </output>
+    <action>HALT and wait for user to confirm or decline the git commit before proceeding to Step 10</action>
   </step>
 
   <step n="10" goal="Completion communication and user support">

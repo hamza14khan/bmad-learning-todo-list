@@ -19,8 +19,9 @@ describe('TodoList', () => {
     expect(screen.getByText('Walk dog')).toBeInTheDocument()
   })
 
-  it('renders empty list without crashing when todos is []', () => {
+  it('shows empty state message when todos is [] and not loading', () => {
     render(<TodoList todos={[]} isLoading={false} />)
-    expect(screen.queryAllByRole('listitem')).toHaveLength(0)
+    expect(screen.getByText(/add your first task/i)).toBeInTheDocument()
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
   })
 })

@@ -45,7 +45,7 @@ development_status:
   epic-1: in-progress
   1-1-backend-setup: review
   1-2-react-frontend-shell: review
-  1-3-empty-state-and-error-state: backlog
+  1-3-empty-state-and-error-state: review
   epic-1-retrospective: optional
 
   epic-2: backlog

@@ -10,6 +10,10 @@ interface Props {
 export function TodoList({ todos, isLoading }: Props) {
   if (isLoading) return <LoadingSpinner />
 
+  if (todos.length === 0) {
+    return <p className={styles.empty}>No todos yet. Add your first task!</p>
+  }
+
   return (
     <ul className={styles.list}>
       {todos.map(todo => (
