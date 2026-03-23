@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: todoapp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # persist data between restarts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Note: uses 'db' (service name), not 'localhost'
+      DATABASE_URL: postgresql://postgres:password@db:5432/todoapp
+    depends_on:
+      db:
+        condition: service_healthy  # waits for DB healthcheck to pass
+    volumes:
+      - ./backend:/app  # mount source code so --reload picks up changes
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # prevents host node_modules from overlaying container's
+
+volumes:
+  postgres_data:

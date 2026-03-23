@@ -1,0 +1,30 @@
+# Environment variables — never commit these
+**/.env
+.env
+
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+test.db
+
+# Node / Frontend
+node_modules/
+dist/
+.DS_Store
+*.local
+
+# Docker
+.dockerignore
