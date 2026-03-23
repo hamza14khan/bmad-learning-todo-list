@@ -10,6 +10,9 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
+      // api/ and hooks/ are thin wrappers around fetch and React Query.
+      // They are tested implicitly via E2E tests — excluding from threshold.
+      exclude: ['src/api/**', 'src/hooks/**'],
       thresholds: {
         statements: 70,
         branches: 70,

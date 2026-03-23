@@ -35,3 +35,20 @@ def get_todos(db: DbDep) -> list[models.Todo]:
     serialise the SQLAlchemy objects into JSON.
     """
     return db.query(models.Todo).order_by(models.Todo.created_at.asc()).all()
+
+
+@router.post("/todos", response_model=schemas.TodoResponse, status_code=201)
+def create_todo(todo_in: schemas.TodoCreate, db: DbDep) -> models.Todo:
+    """
+    Create a new todo.
+
+    Pydantic validates todo_in.text (min_length=1, max_length=200) automatically.
+    FastAPI returns 422 if validation fails — no manual checks needed here.
+    db.refresh(todo) is required to populate auto-generated id and created_at
+    after the INSERT is committed.
+    """
+    todo = models.Todo(text=todo_in.text)
+    db.add(todo)
+    db.commit()
+    db.refresh(todo)
+    return todo

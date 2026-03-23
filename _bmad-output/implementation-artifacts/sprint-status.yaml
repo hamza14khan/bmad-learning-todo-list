@@ -48,8 +48,8 @@ development_status:
   1-3-empty-state-and-error-state: review
   epic-1-retrospective: optional
 
-  epic-2: backlog
-  2-1-create-a-todo: backlog
+  epic-2: in-progress
+  2-1-create-a-todo: review
   2-2-complete-and-uncomplete-a-todo: backlog
   2-3-delete-a-todo: backlog
   epic-2-retrospective: optional

@@ -1,10 +1,20 @@
-import { useQuery } from '@tanstack/react-query'
-import { getTodos } from '../api/todos'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { getTodos, createTodo } from '../api/todos'
 import type { Todo } from '../types/todo'
 
 export function useGetTodos() {
   return useQuery<Todo[]>({
-    queryKey: ['todos'],  // cache key — Epic 2 mutations will invalidate this
+    queryKey: ['todos'],
     queryFn: getTodos,
+  })
+}
+
+export function useCreateTodo() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (text: string) => createTodo(text),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] })
+    },
   })
 }

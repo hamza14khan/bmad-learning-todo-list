@@ -113,3 +113,38 @@ class TestGetTodos:
         assert len(data) == 2
         assert any(t["is_complete"] is True for t in data)
         assert any(t["is_complete"] is False for t in data)
+
+
+class TestCreateTodo:
+    """Tests for POST /api/v1/todos"""
+
+    def test_create_todo_returns_201(self, client):
+        """Successful creation returns 201 Created."""
+        response = client.post("/api/v1/todos", json={"text": "Buy milk"})
+        assert response.status_code == 201
+
+    def test_create_todo_response_shape(self, client):
+        """Response includes all required fields with correct values."""
+        response = client.post("/api/v1/todos", json={"text": "Buy milk"})
+        data = response.json()
+        assert "id" in data
+        assert data["text"] == "Buy milk"
+        assert data["is_complete"] is False
+        assert "created_at" in data
+
+    def test_create_todo_persists(self, client):
+        """Created todo is retrievable via GET."""
+        client.post("/api/v1/todos", json={"text": "Buy milk"})
+        response = client.get("/api/v1/todos")
+        assert len(response.json()) == 1
+        assert response.json()[0]["text"] == "Buy milk"
+
+    def test_create_todo_empty_text_returns_422(self, client):
+        """Empty text is rejected by Pydantic validation."""
+        response = client.post("/api/v1/todos", json={"text": ""})
+        assert response.status_code == 422
+
+    def test_create_todo_too_long_text_returns_422(self, client):
+        """Text exceeding 200 characters is rejected."""
+        response = client.post("/api/v1/todos", json={"text": "x" * 201})
+        assert response.status_code == 422

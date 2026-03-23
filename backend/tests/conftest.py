@@ -12,14 +12,21 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 from database import Base, get_db
 from main import app
 
-# SQLite in-memory database for tests
-# check_same_thread=False is required for SQLite when used with FastAPI's TestClient
+# SQLite in-memory database for tests.
+# StaticPool ensures all connections share the same in-memory database —
+# without it, each engine.connect() call gets a separate empty DB.
+# check_same_thread=False is required for SQLite when used with FastAPI's TestClient.
 TEST_DATABASE_URL = "sqlite:///:memory:"
-engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(
+    TEST_DATABASE_URL,
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
