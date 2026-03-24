@@ -44,6 +44,21 @@ describe('AddTodoForm', () => {
     expect(mockMutate).not.toHaveBeenCalled()
   })
 
+  it('input has aria-invalid when validation error is shown', async () => {
+    render(<AddTodoForm />)
+    await userEvent.click(screen.getByRole('button', { name: /add/i }))
+    const input = screen.getByRole('textbox', { name: /new todo/i })
+    expect(input).toHaveAttribute('aria-invalid', 'true')
+  })
+
+  it('input has aria-describedby pointing to error element when error is shown', async () => {
+    render(<AddTodoForm />)
+    await userEvent.click(screen.getByRole('button', { name: /add/i }))
+    const input = screen.getByRole('textbox', { name: /new todo/i })
+    expect(input).toHaveAttribute('aria-describedby', 'todo-form-error')
+    expect(document.getElementById('todo-form-error')).toBeInTheDocument()
+  })
+
   it('clears input after successful submission', async () => {
     mockMutate.mockImplementation((_text: string, options: any) => {
       options?.onSuccess?.()

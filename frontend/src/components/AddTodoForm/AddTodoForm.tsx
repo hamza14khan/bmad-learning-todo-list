@@ -41,12 +41,14 @@ export function AddTodoForm() {
         placeholder="Add a new task..."
         className={styles.input}
         aria-label="New todo"
+        aria-invalid={validationError ? 'true' : undefined}
+        aria-describedby={validationError ? 'todo-form-error' : undefined}
       />
       <button type="submit" disabled={isPending} className={styles.button}>
         {isPending ? 'Adding...' : 'Add'}
       </button>
       {validationError && (
-        <p role="alert" className={styles.error}>{validationError}</p>
+        <p id="todo-form-error" role="alert" className={styles.error}>{validationError}</p>
       )}
     </form>
   )

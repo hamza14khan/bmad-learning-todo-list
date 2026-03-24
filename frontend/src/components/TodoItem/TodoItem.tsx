@@ -15,7 +15,7 @@ export function TodoItem({ todo }: Props) {
       <button
         className={styles.toggle}
         onClick={() => toggleTodo({ id: todo.id, is_complete: !todo.is_complete })}
-        aria-label={todo.is_complete ? 'Mark as active' : 'Mark as complete'}
+        aria-label={todo.is_complete ? `Mark "${todo.text}" as active` : `Mark "${todo.text}" as complete`}
       >
         {todo.is_complete ? '✓' : '○'}
       </button>
@@ -25,7 +25,7 @@ export function TodoItem({ todo }: Props) {
       <button
         className={styles.delete}
         onClick={() => deleteTodo(todo.id)}
-        aria-label="Delete todo"
+        aria-label={`Delete "${todo.text}"`}
       >
         ✕
       </button>

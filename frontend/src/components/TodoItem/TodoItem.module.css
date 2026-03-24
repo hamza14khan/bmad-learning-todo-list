@@ -33,6 +33,11 @@
   color: #4a90e2;
 }
 
+.toggle:focus-visible {
+  outline: 2px solid #0070c1;
+  outline-offset: 2px;
+}
+
 .text {
   flex: 1;
   font-size: 1rem;
@@ -40,14 +45,14 @@
 
 .completed {
   text-decoration: line-through;
-  color: #aaa;
+  color: #767676;
 }
 
 .delete {
   background: none;
   border: none;
   cursor: pointer;
-  color: #ccc;
+  color: #767676;
   font-size: 1rem;
   min-width: 44px;
   min-height: 44px;
@@ -60,4 +65,10 @@
 
 .delete:hover {
   color: #e74c3c;
+}
+
+.delete:focus-visible {
+  outline: 2px solid #0070c1;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
