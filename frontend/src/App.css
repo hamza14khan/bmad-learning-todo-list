@@ -21,3 +21,9 @@ h1 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
+
+@media (max-width: 480px) {
+  .app {
+    margin: 1rem auto;
+  }
+}
