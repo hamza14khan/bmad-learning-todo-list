@@ -1,6 +1,6 @@
 # Todo App
 
-A full-stack todo application — React frontend + FastAPI backend + PostgreSQL database.
+A full-stack todo application — React frontend + FastAPI backend + PostgreSQL database + BMAD SDD.
 
 ## Services
 
