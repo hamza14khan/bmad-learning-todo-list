@@ -1,6 +1,6 @@
 # Story 2.2: Complete and Uncomplete a Todo
 
-Status: review
+Status: done
 
 ## Story
 

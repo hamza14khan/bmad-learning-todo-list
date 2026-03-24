@@ -1,6 +1,6 @@
 # Story 3.1: Responsive Layout
 
-Status: review
+Status: done
 
 ## Story
 

@@ -1,6 +1,6 @@
 # Story 3.2: Keyboard Accessibility & WCAG Compliance
 
-Status: review
+Status: done
 
 ## Story
 

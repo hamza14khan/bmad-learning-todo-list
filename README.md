@@ -4,12 +4,12 @@ A full-stack todo application — React frontend + FastAPI backend + PostgreSQL 
 
 ## Services
 
-| Service  | URL                         | Description          |
-|----------|-----------------------------|----------------------|
-| Backend  | http://localhost:8000       | FastAPI REST API     |
-| API Docs | http://localhost:8000/docs  | Swagger UI           |
-| Frontend | http://localhost:5173       | React app (Story 1.2)|
-| Database | localhost:5432              | PostgreSQL           |
+| Service  | URL                        | Description           |
+| -------- | -------------------------- | --------------------- |
+| Backend  | http://localhost:8000      | FastAPI REST API      |
+| API Docs | http://localhost:8000/docs | Swagger UI            |
+| Frontend | http://localhost:5173      | React app (Story 1.2) |
+| Database | localhost:5432             | PostgreSQL            |
 
 ## Quick Start (Docker — recommended)
 
@@ -26,7 +26,7 @@ make migrate
 ## Service Setup Guides
 
 - [Backend Setup](./backend/README.md)
-- Frontend Setup — coming in Story 1.2
+- [Frontend Setup](./frontend//README.md)
 
 ## Available Commands
 

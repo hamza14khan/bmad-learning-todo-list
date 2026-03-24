@@ -1,6 +1,6 @@
 # Story 1.3: Empty State & Error State
 
-Status: review
+Status: done
 
 ## Story
 

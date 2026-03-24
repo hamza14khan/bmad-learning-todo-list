@@ -1,6 +1,6 @@
 # Story 1.2: React Frontend Shell with Todo List View
 
-Status: review
+Status: done
 
 ## Story
 

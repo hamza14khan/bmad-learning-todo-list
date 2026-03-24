@@ -1,6 +1,6 @@
 # Story 2.3: Delete a Todo
 
-Status: review
+Status: done
 
 ## Story
 

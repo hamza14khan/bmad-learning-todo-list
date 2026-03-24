@@ -1,6 +1,6 @@
 # Story 1.1: Backend Setup — FastAPI Project, PostgreSQL Todo Model & GET /api/v1/todos Endpoint
 
-Status: review
+Status: done
 
 ## Story
 
