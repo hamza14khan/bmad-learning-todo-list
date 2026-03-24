@@ -5,14 +5,14 @@ import { ErrorMessage } from './components/ErrorMessage/ErrorMessage'
 import './App.css'
 
 export default function App() {
-  const { data: todos = [], isLoading, isError, error } = useGetTodos()
+  const { data: todos = [], isLoading, isError } = useGetTodos()
 
   return (
     <main className="app">
       <h1>Todo List</h1>
       <AddTodoForm />
       {isError ? (
-        <ErrorMessage message={error instanceof Error ? error.message : undefined} />
+        <ErrorMessage />
       ) : (
         <TodoList todos={todos} isLoading={isLoading} />
       )}
